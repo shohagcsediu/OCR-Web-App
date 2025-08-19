@@ -53,7 +53,7 @@ pip install -r requirements.txt
 ```
 ### 4: Install Tesseract OCR
 
-Download the Windows installer from Tesseract at UB Mannheim
+Download the Windows installer from [Tesseract at UB Mannheim][tesseract]
 
 Install and note the installation path (default: C:\Program Files\Tesseract-OCR)
 
@@ -71,3 +71,5 @@ python app.py
 You can modify the bat file i have created this for my winsows machine.
 
 enjoy :)
+
+[tesseract]: https://github.com/UB-Mannheim/tesseract/wiki
