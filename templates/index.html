@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OCR App</title>
+<style>
+  body { font-family: Arial, sans-serif; background:#f0f0f0; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; }
+  .container { background:white; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.2); text-align:center; width:400px; }
+  .drop-zone { border: 2px dashed #007BFF; padding: 30px; border-radius:10px; cursor:pointer; margin-bottom:10px; transition:0.2s; }
+  .drop-zone.dragover { background:#e0f0ff; }
+  #fileList { text-align:left; margin-bottom:20px; max-height:100px; overflow-y:auto; font-size:14px; }
+  input[type=file] { display:none; }
+  button { padding:10px 20px; border:none; background:#007BFF; color:white; cursor:pointer; border-radius:5px; }
+  button:hover { background:#0056b3; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>OCR Upload</h1>
+  <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+    <div class="drop-zone" id="dropZone">
+      Drag & Drop Images Here or Click
+      <input type="file" name="files" id="fileInput" accept="image/*" multiple required>
+    </div>
+    <div id="fileList">No files selected</div>
+    <button type="submit">Extract Text</button>
+  </form>
+</div>
+
+<script>
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const fileList = document.getElementById('fileList');
+
+  function updateFileList() {
+    if (fileInput.files.length === 0) {
+      fileList.textContent = 'No files selected';
+    } else {
+      const names = Array.from(fileInput.files).map(f => f.name);
+      fileList.innerHTML = names.join('<br>');
+    }
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+  });
+
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    fileInput.files = e.dataTransfer.files;
+    updateFileList();
+  });
+
+  fileInput.addEventListener('change', updateFileList);
+</script>
+</body>
+</html>
